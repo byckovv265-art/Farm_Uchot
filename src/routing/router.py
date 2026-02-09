@@ -1,22 +1,54 @@
+from fastapi import Query
 from fastapi.routing import APIRouter
-from src.config import settings
-from src.service.serv import Service
+from src.container import spisok_cow
 
-router = APIRouter(prefix='/hihihih')
+from random import randint
+
+from src.schemas import livestockCreate, livestockChange
+from src.const import stateEnum
+
+router = APIRouter()
 
 
-@router.get('/hello-world')
-async def hello_world():
-    return "ipweiorwep!"
+@router.get('/list')
+async def get_all():
+    return spisok_cow
 
-@router.get('/hello-world/{o}')
-async def hello_world():
-    return "Hi mam!"
+@router.get('/get/{cow_vin}')
+async def get_cow_by_vin(cow_vin:str):
+    return spisok_cow.get(cow_vin)
 
-@router.post('/object/{object_id}')
-async def get_object(object_id: int, body: dict):
-    return Service.f(1)
+@router.post('/add')
+async def add_cow(
+    body: livestockCreate = Query(...)
+):
+    vin_n = f'vin{randint(0,10000)}'
+    spisok_cow[vin_n] = {**body.__dict__}
+        # 'name': body.name,
+        # 'type': body.type,
+        # 'sex': body.sex,
+        # 'weight': body.weight,
+        # 'state': body.state
+    return spisok_cow[vin_n]
 
-@router.delete('/hello-world')
-async def get_object(object_id: int, body: dict):
-    return Service.f(1)
+
+@router.patch('/state_patch/{cow_vin}')
+async def get_cow_by_vin(cow_vin:str, state:stateEnum):
+    spisok_cow[cow_vin]['state'] = state
+    return spisok_cow[cow_vin]
+
+
+@router.put('/state_put/{cow_vin}')
+async def changing_information(cow_vin:str, body: livestockChange = Query(...)):
+    spisok_cow[cow_vin].update(
+        {
+        key:value for key, value in body if value is not None 
+    }
+        )
+    return spisok_cow[cow_vin]
+
+
+@router.delete('/delete/{cow_vin}')
+async def delete_livestock(cow_vin):
+    return spisok_cow.pop(cow_vin, None)
+
