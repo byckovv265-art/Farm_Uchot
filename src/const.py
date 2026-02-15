@@ -16,4 +16,4 @@ class stateEnum(str,Enum):
     heatly = 'heatly'
     ill = 'ill'
     vaccinated = 'vaccinated'
-    dont_vaccinated = 'dont vaccinated'
+    dont_vaccinated = 'донт vaccinated'
