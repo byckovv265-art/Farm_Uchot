@@ -3,9 +3,18 @@ from fastapi.routing import APIRouter
 from src.container import spisok_cow
 
 from random import randint
+import logging
 
 from src.schemas import LivestockCreate, LivestockChange, LivestockFilter
 from src.const import stateEnum
+
+logger = logging.getLogger(__name__)
+
+# logger.debug("debug message (on routes import)")
+# logger.info("info message (on routes import)")
+# logger.warning("warning message (on routes import)")
+# logger.error("error message (on routes import)")
+# logger.critical("critical message (on routes import)")
 
 router = APIRouter()
 
@@ -20,6 +29,9 @@ async def get_all(filter: LivestockFilter):
                 is_ok = False
         if filter.type is not None:
             if not filter.type == v['type']:
+                is_ok = False
+        if filter.state is not None:
+            if not filter.state == v['state']:
                 is_ok = False
         if is_ok:
             output.append(v)

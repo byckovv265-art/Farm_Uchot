@@ -19,3 +19,4 @@ class LivestockChange(BaseModel):
 class LivestockFilter(BaseModel):
     string_search: str | None = Field(description="Поиск по тексту", default = None)
     type: typesEnum | None = Field(description="Поиск по типу", default = None)
+    state: stateEnum | None = Field(description="Статус животного", default = None)
