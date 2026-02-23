@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from src.const import typesEnum, sexEnum, stateEnum
+from src.conts.const import typesEnum, sexEnum, stateEnum
 
 
 class LivestockCreate(BaseModel):

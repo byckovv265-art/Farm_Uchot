@@ -1,12 +1,12 @@
 from fastapi import Query
 from fastapi.routing import APIRouter
-from src.container import spisok_cow
+from src.container.container import spisok_cow
 
 from random import randint
 import logging
 
-from src.schemas import LivestockCreate, LivestockChange, LivestockFilter
-from src.const import stateEnum
+from src.schemas.schemas import LivestockCreate, LivestockChange, LivestockFilter
+from src.conts.const import stateEnum
 
 logger = logging.getLogger(__name__)
 
